@@ -12,14 +12,20 @@ public class DriverFactory {
         String browser = Config.browser();
 
         if (browser.equalsIgnoreCase("chrome")) {
-
             ChromeOptions options = new ChromeOptions();
 
-            if (Config.isHeadless()) {
+            boolean headless = Config.isHeadless();
+
+            if (headless) {
                 options.addArguments("--headless=new");
+                options.addArguments("--window-size=1920,1080");
+            } else {
+                options.addArguments("--start-maximized");
             }
 
-            options.addArguments("--start-maximized");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
 
             return new ChromeDriver(options);
         }

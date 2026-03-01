@@ -31,10 +31,6 @@ public class ProductDetailPage extends BasePage {
         }
     }
 
-    public String productTitle() {
-        return getText(title);
-    }
-
     public ProductDetailPage addToCartAndAcceptAlert() {
         click(addToCartLink);
         acceptAlertIfPresent();

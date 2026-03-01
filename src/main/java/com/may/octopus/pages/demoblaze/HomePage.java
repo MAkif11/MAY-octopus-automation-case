@@ -7,9 +7,6 @@ import org.openqa.selenium.WebDriver;
 
 public class HomePage extends BasePage {
 
-    private final By productsGrid = By.id("tbodyid");
-    private final By cartLink = By.id("cartur");
-
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -19,17 +16,8 @@ public class HomePage extends BasePage {
         return this;
     }
 
-    public boolean isLoaded() {
-        return isDisplayed(productsGrid);
-    }
-
     public ProductDetailPage openProductByName(String name) {
         click(By.linkText(name));
         return new ProductDetailPage(driver);
-    }
-
-    public CartPage openCart() {
-        click(cartLink);
-        return new CartPage(driver);
     }
 }

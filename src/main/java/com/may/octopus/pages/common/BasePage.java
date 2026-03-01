@@ -46,10 +46,6 @@ public abstract class BasePage {
         }
     }
 
-    protected void acceptAlert() {
-        wait.until(ExpectedConditions.alertIsPresent()).accept();
-    }
-
     protected boolean acceptAlertIfPresent() {
         try {
             new WebDriverWait(driver, Duration.ofSeconds(5))
