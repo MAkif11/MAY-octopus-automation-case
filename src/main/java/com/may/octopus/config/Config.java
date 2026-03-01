@@ -2,6 +2,8 @@ package com.may.octopus.config;
 
 public class Config {
 
+    private Config() {}
+
     public static String browser() {
         return ConfigLoader.get("browser");
     }

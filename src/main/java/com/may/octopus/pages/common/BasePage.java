@@ -1,8 +1,6 @@
 package com.may.octopus.pages.common;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -10,12 +8,16 @@ import java.time.Duration;
 
 public abstract class BasePage {
 
-    protected WebDriver driver;
-    private final WebDriverWait wait;
+    protected final WebDriver driver;
+    protected final WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+    protected WebElement find(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     protected void click(By locator) {
@@ -32,18 +34,29 @@ public abstract class BasePage {
         return find(locator).getText();
     }
 
-    protected WebElement find(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
-
     protected boolean isDisplayed(By locator) {
         return find(locator).isDisplayed();
     }
 
     protected boolean isVisible(By locator) {
         try {
-            return find(locator).isDisplayed();
+            return driver.findElements(locator).stream().anyMatch(WebElement::isDisplayed);
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    protected void acceptAlert() {
+        wait.until(ExpectedConditions.alertIsPresent()).accept();
+    }
+
+    protected boolean acceptAlertIfPresent() {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.alertIsPresent())
+                    .accept();
+            return true;
+        } catch (TimeoutException e) {
             return false;
         }
     }
